@@ -26,26 +26,30 @@ formatMacAddress(macAddr, macStr, 18);
 }
 void setup() {
   // put your setup code here, to run once:
-pinMode(iGreenPin, OUTPUT);
-pinMode(iRedPin, OUTPUT);
-EStopButton.setDebounceTime(lKeyDebounce);
+  pinMode(iGreenPin, OUTPUT);
+  pinMode(iRedPin, OUTPUT);
+  EStopButton.setDebounceTime(lKeyDebounce);
 
-Serial.begin(115200);
-delay(1000);
+  Serial.begin(115200);
+  delay(1000);
 
-WiFi.mode(WIFI_STA);
-WiFi.disconnect() == 0;
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect() == 0;
 
-if (esp_now_init() == 0)
-{esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
-esp_now_register_send_cb(sentCallback);
-}
-else
-{
-  Serial.println("ESP-NOW init failed");
-delay(3000);
-ESP.restart();
-}
+  if (esp_now_init() == 0)
+    {esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
+    esp_now_register_send_cb(sentCallback);
+  }
+  else
+  {
+    Serial.println("ESP-NOW init failed");
+    delay(3000);
+    ESP.restart();
+  }
+
+  if (EStopButton.getStateRaw() == HIGH) {
+    bEStopOn = true;
+  }
 
 }
 
